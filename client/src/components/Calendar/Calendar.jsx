@@ -3,6 +3,7 @@ import { FilterContext } from "../../context/FilterContext";
 import { format, addDays } from "date-fns";
 import CalendarHeader from "./CalendarHeader";
 import CalendarBody from "./CalendarBody";
+import RequestService from "../../services/requestService";
 import MatchesPopUp from "../Matches/MatchesPopUp";
 
 const Calendar = () => {
@@ -18,6 +19,15 @@ const Calendar = () => {
     daysOfWeek.push(formattedDay);
   }
 
+  const createRequest = async () => {
+    try {
+      const response = await RequestService.createRequest(timeSlots, filters);
+      console.log("Request created successfully:", response);
+    } catch (error) {
+      console.error("Failed to create request:", error);
+    }
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto mt-8">
       {showMatches && (
@@ -32,7 +42,10 @@ const Calendar = () => {
       <CalendarHeader daysOfWeek={daysOfWeek} />
       <CalendarBody timeSlots={timeSlots} setTimeSlots={setTimeSlots} />
       <div className="flex justify-center gap-4 m-2">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-1 rounded"
+          onClick={createRequest}
+        >
           Submit Request
         </button>
         <button
