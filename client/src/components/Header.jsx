@@ -1,10 +1,10 @@
-import GDSC from "../assets/GDSC.png";
+import TMACC from "../assets/Tmacc.png";
 
 const Header = () => {
   return (
     <>
       <div className="flex justify-between p-5">
-        <img src={GDSC} alt="GDSC Logo" className="w-8 h-8" />
+        <img src={TMACC} alt="TMACC Logo" className="w-12 h-12" />
         <div>
           <h1 className="ml-2 text-lg font-semibold">
             Mock Interview Matching
