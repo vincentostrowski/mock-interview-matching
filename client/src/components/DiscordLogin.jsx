@@ -12,12 +12,12 @@ const DiscordLogin = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-black">
       <img src={TMACC} alt="TMACC Logo" className="w-20 h-20" />
-      <h1 className="text-3xl font-bold mb-4">Login with Discord</h1>
+      <h1 className="text-3xl font-bold mb-4 text-white">Login with Discord</h1>
       <button
         onClick={handleLogin}
-        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
       >
         Login
       </button>

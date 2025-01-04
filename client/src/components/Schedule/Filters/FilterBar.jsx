@@ -1,6 +1,6 @@
 import DropDown from "./DropDown";
 import { useContext } from "react";
-import { FilterContext } from "../../context/FilterContext";
+import { FilterContext } from "../../../context/FilterContext";
 
 const FilterBar = () => {
   const { filters, setFilters } = useContext(FilterContext);

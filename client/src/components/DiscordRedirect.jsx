@@ -63,7 +63,7 @@ const DiscordRedirect = () => {
         })
         .then(() => {
           // User is a member of the Discord server and exists in the database, navigate to the protected page
-          navigate("/protected");
+          navigate("/schedule");
         })
         .catch((error) => {
           console.error("Error during Discord OAuth2 flow:", error);

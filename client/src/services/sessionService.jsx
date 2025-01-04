@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = `${import.meta.env.VITE_SERVER_URL}/requests`;
+const API_URL = `${import.meta.env.VITE_SERVER_URL}/sessions`;
 
 const convertToISO8601 = (dayIndex, hourIndex) => {
   // Get today's date
@@ -34,10 +34,11 @@ const formatDates = (timeSlots) => {
   return formattedSlots;
 };
 
-const discordId = localStorage.getItem("discordId");
+/* const discordId = localStorage.getItem("discordId"); */
+const discordId = "exampleDiscordId123";
 
 // Create a new request using the POST method
-const createRequest = async (timeSlots, filters) => {
+const createSession = async (timeSlots, filters) => {
   timeSlots = formatDates(timeSlots);
 
   if (!discordId) {
@@ -54,13 +55,15 @@ const createRequest = async (timeSlots, filters) => {
       user: discordId,
     };
 
+    console.log("Request body:", requestBody);
+
     // Make the POST request to the API
     const response = await axios.post(`${API_URL}`, requestBody);
 
     // Return the response data (optional, handle as per your needs)
     return response.data;
   } catch (error) {
-    console.error("Error creating request:", error);
+    console.error("Error creating session:", error);
     throw error;
   }
 };
@@ -86,24 +89,22 @@ const viewMatches = async (timeSlots, filters) => {
     // Return the response data (optional, handle as per your needs)
     return response.data;
   } catch (error) {
-    console.error("Error creating request:", error);
+    console.error("Error creating fetching matches:", error);
     throw error;
   }
 };
 
-const handleMatch = async (matchId, matchUserDiscordId) => {
+const handleMatch = async (sessionId, matchUserDiscordId) => {
   try {
     if (!discordId) {
       throw new Error("Discord ID not found in local storage");
     }
 
     const requestBody = {
-      requestId: matchId,
+      sessionId,
       user1DiscordId: discordId,
       user2DiscordId: matchUserDiscordId,
     };
-
-    console.log(requestBody);
 
     const response = await axios.post(`${API_URL}/handle_match`, requestBody);
 
@@ -115,7 +116,7 @@ const handleMatch = async (matchId, matchUserDiscordId) => {
 };
 
 export default {
-  createRequest,
+  createSession,
   viewMatches,
   handleMatch,
 };

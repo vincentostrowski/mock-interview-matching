@@ -6,10 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "TimeSlot", indexes = {
-        @Index(name = "idx_start_time", columnList = "startTime"),
-        @Index(name = "idx_request_id", columnList = "request_id")
-})
 @Setter
 @Getter
 public class TimeSlot {
@@ -22,8 +18,8 @@ public class TimeSlot {
     private LocalDateTime startTime; // Start time of the interview
 
     @ManyToOne
-    @JoinColumn(name = "request_id", nullable = false)
-    private Request request; // The request associated with this time slot
+    @JoinColumn(name = "session_id", nullable = false)
+    private Session session; // The request associated with this time slot
 
     public TimeSlot() {
     }

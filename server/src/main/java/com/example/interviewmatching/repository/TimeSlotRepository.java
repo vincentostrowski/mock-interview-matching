@@ -19,6 +19,6 @@ public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
     void deletePastTimeSlots(@Param("now") LocalDateTime now);
 
     @Modifying
-    @Query("DELETE FROM TimeSlot t WHERE t.request.id = :requestId")
-    void deleteByRequestId(@Param("requestId") Long requestId);
+    @Query("DELETE FROM TimeSlot t WHERE t.session.id = :sessionId")
+    void deleteBySessionId(@Param("sessionId") Long sessionId);
 }

@@ -1,9 +1,9 @@
 package com.example.interviewmatching.controller;
 
-import com.example.interviewmatching.model.Request;
+import com.example.interviewmatching.model.Session;
 import com.example.interviewmatching.model.TimeSlot;
 import com.example.interviewmatching.model.User;
-import com.example.interviewmatching.service.RequestService;
+import com.example.interviewmatching.service.SessionService;
 import com.example.interviewmatching.service.TimeSlotService;
 import com.example.interviewmatching.service.UserService;
 
@@ -15,13 +15,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/requests")
 @CrossOrigin(origins = "http://localhost:5173")
-public class RequestController {
+@RestController
+@RequestMapping("/sessions")
+public class SessionController {
 
     @Autowired
-    private RequestService requestService;
+    private SessionService sessionService;
 
     @Autowired
     private UserService userService;
@@ -30,15 +30,15 @@ public class RequestController {
     private TimeSlotService timeSlotService;
 
     @PostMapping
-    public Request createRequest(@RequestBody Map<String, Object> requestData) {
+    public Session createSession(@RequestBody Map<String, Object> requestData) {
         String discordId = (String) requestData.get("user");
         User user = userService.getUserByDiscordId(discordId).orElseThrow(() -> new RuntimeException("User not found"));
 
-        Request request = new Request();
-        request.setUser(user);
-        request.setTopic((String) requestData.get("topic"));
-        request.setEase((String) requestData.get("ease"));
-        request.setType((String) requestData.get("type"));
+        Session session = new Session();
+        session.setParticipant1(user);
+        session.setTopic((String) requestData.get("topic"));
+        session.setEase((String) requestData.get("ease"));
+        session.setType((String) requestData.get("type"));
 
         // Map the time slots
         List<String> timeSlotStrings = (List<String>) requestData.get("timeSlots");
@@ -46,19 +46,19 @@ public class RequestController {
                 .map(time -> {
                     TimeSlot timeSlot = new TimeSlot();
                     timeSlot.setStartTime(LocalDateTime.parse(time));
-                    timeSlot.setRequest(request);
+                    timeSlot.setSession(session);
                     return timeSlot;
                 })
                 .collect(Collectors.toList());
 
-        Request savedRequest = requestService.saveRequest(request);
+        Session savedSession = sessionService.saveSession(session);
         timeSlotService.saveAll(timeSlots);
 
-        return savedRequest;
+        return savedSession;
     }
 
     @PostMapping("/view_matches")
-    public List<Request> viewMatches(@RequestBody Map<String, Object> requestData) {
+    public List<Session> viewMatches(@RequestBody Map<String, Object> requestData) {
 
         String discordId = (String) requestData.get("user");
         User user = userService.getUserByDiscordId(discordId)
@@ -74,16 +74,16 @@ public class RequestController {
                 .map(LocalDateTime::parse)
                 .collect(Collectors.toList());
 
-        return requestService.findMatchingRequests(user, topic, ease, type, timeSlots);
+        return sessionService.findMatchingSessions(user, topic, ease, type, timeSlots);
     }
 
     @PostMapping("/handle_match")
     public void handleMatch(@RequestBody Map<String, Object> requestData) {
-        Long requestId = ((Number) requestData.get("requestId")).longValue();
+        Long sessionId = ((Number) requestData.get("sessionId")).longValue();
         String user1DiscordId = (String) requestData.get("user1DiscordId");
         String user2DiscordId = (String) requestData.get("user2DiscordId");
 
-        requestService.handleMatch(requestId, user1DiscordId, user2DiscordId);
+        sessionService.handleMatch(sessionId, user1DiscordId, user2DiscordId);
     }
 
 }

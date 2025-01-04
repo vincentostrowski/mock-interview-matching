@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
-import { FilterContext } from "../../context/FilterContext";
+import { FilterContext } from "../../../context/FilterContext";
 import { format, addDays } from "date-fns";
 import CalendarHeader from "./CalendarHeader";
 import CalendarBody from "./CalendarBody";
-import RequestService from "../../services/requestService";
+import SessionService from "../../../services/sessionService";
 import MatchesPopUp from "../Matches/MatchesPopUp";
 
 const Calendar = () => {
@@ -21,7 +21,7 @@ const Calendar = () => {
 
   const createRequest = async () => {
     try {
-      const response = await RequestService.createRequest(timeSlots, filters);
+      const response = await SessionService.createSession(timeSlots, filters);
       console.log("Request created successfully:", response);
     } catch (error) {
       console.error("Failed to create request:", error);

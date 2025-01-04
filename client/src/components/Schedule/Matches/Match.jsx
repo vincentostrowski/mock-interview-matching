@@ -1,4 +1,4 @@
-import requestService from "../../services/requestService";
+import sessionService from "../../../services/sessionService";
 import { useState } from "react";
 
 const Match = ({ match, onClose }) => {
@@ -7,7 +7,7 @@ const Match = ({ match, onClose }) => {
   const handleMatch = async () => {
     setIsClicked(true);
     try {
-      const response = await requestService.handleMatch(
+      const response = await sessionService.handleMatch(
         match.id,
         match.user.discordId
       );

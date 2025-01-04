@@ -1,5 +1,5 @@
 import Match from "./Match";
-import RequestService from "../../services/requestService";
+import sessionService from "../../../services/sessionService";
 import { useState, useEffect } from "react";
 
 const MatchesPopUp = ({ timeSlots, filters, onClose }) => {
@@ -8,7 +8,7 @@ const MatchesPopUp = ({ timeSlots, filters, onClose }) => {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const response = await RequestService.viewMatches(timeSlots, filters);
+        const response = await sessionService.viewMatches(timeSlots, filters);
         console.log("Matches viewed successfully:", response);
         setMatches(response);
       } catch (error) {

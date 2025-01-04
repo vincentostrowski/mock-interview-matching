@@ -10,7 +10,7 @@ const TimeSlotCell = ({
   return (
     <div
       className={`cursor-pointer border ${
-        isSelected ? "bg-blue-500 text-white" : "bg-gray-100"
+        isSelected ? "bg-blue-500 text-white" : "bg-zinc-500"
       } hover:bg-blue-200`}
       onMouseDown={onMouseDown}
       onMouseEnter={onMouseEnter}
