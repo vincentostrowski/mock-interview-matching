@@ -6,7 +6,7 @@ import CalendarBody from "./CalendarBody";
 import SessionService from "../../../services/sessionService";
 import MatchesPopUp from "../Matches/MatchesPopUp";
 
-const Calendar = () => {
+const Calendar = ({ setRequestedSessions, setScheduledSessions }) => {
   const { filters } = useContext(FilterContext);
   const [timeSlots, setTimeSlots] = useState(new Set());
   const [showMatches, setShowMatches] = useState(false);
@@ -23,6 +23,7 @@ const Calendar = () => {
     try {
       const response = await SessionService.createSession(timeSlots, filters);
       console.log("Request created successfully:", response);
+      setRequestedSessions((prev) => [...prev, response]);
     } catch (error) {
       console.error("Failed to create request:", error);
     }
@@ -36,6 +37,7 @@ const Calendar = () => {
             onClose={() => setShowMatches(false)}
             timeSlots={timeSlots}
             filters={filters}
+            setScheduledSessions={setScheduledSessions}
           />
         </div>
       )}

@@ -37,10 +37,10 @@ public class SessionController {
     }
 
     @PostMapping("/{sessionId}/match")
-    public ResponseEntity<Void> handleMatch(@PathVariable Long sessionId,
+    public ResponseEntity<Session> handleMatch(@PathVariable Long sessionId,
             @RequestBody Map<String, Object> requestData) {
-        sessionService.handleMatch(sessionId, requestData);
-        return ResponseEntity.ok().build(); // Returns a 200 OK response without a body
+        Session session = sessionService.handleMatch(sessionId, requestData);
+        return ResponseEntity.ok(session);
     }
 
     @GetMapping

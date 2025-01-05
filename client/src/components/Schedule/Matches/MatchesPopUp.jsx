@@ -2,7 +2,12 @@ import Match from "./Match";
 import sessionService from "../../../services/sessionService";
 import { useState, useEffect } from "react";
 
-const MatchesPopUp = ({ timeSlots, filters, onClose }) => {
+const MatchesPopUp = ({
+  timeSlots,
+  filters,
+  onClose,
+  setScheduledSessions,
+}) => {
   const [matches, setMatches] = useState([]);
 
   useEffect(() => {
@@ -33,6 +38,7 @@ const MatchesPopUp = ({ timeSlots, filters, onClose }) => {
               match={match}
               timeSlots={timeSlots}
               onClose={onClose}
+              setScheduledSessions={setScheduledSessions}
             />
           ))}
       </div>

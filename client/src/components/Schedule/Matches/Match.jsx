@@ -1,7 +1,7 @@
 import sessionService from "../../../services/sessionService";
 import { useState } from "react";
 
-const Match = ({ match, timeSlots, onClose }) => {
+const Match = ({ match, timeSlots, onClose, setScheduledSessions }) => {
   const [isClicked, setIsClicked] = useState(false);
 
   const handleSessionMatch = async () => {
@@ -12,6 +12,7 @@ const Match = ({ match, timeSlots, onClose }) => {
         match.id
       );
       console.log("Match created successfully:", response);
+      setScheduledSessions((prev) => [...prev, response]);
       onClose();
     } catch (error) {
       console.error("Failed to create match:", error);

@@ -29,7 +29,10 @@ const SchedulePage = () => {
         </div>
       </div>
       <div className="p-4 pt-2">
-        <CalendarView />
+        <CalendarView
+          setRequestedSessions={setRequestedSessions}
+          setScheduledSessions={setScheduledSessions}
+        />
       </div>
     </div>
   );

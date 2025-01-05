@@ -92,7 +92,7 @@ public class SessionService {
     }
 
     @Transactional
-    public void handleMatch(Long sessionId, Map<String, Object> requestData) {
+    public Session handleMatch(Long sessionId, Map<String, Object> requestData) {
         // Validate and retrieve the user
         String discordId = (String) requestData.get("user");
         User user = userService.getUserByDiscordId(discordId)
@@ -115,6 +115,8 @@ public class SessionService {
 
         // Delegate time slot deletion to the TimeSlotService
         timeSlotService.deleteTimeSlots(sessionId, timeSlots);
+
+        return session;
 
         // Send a message to the Discord channel
         /*

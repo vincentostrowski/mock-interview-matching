@@ -1,4 +1,4 @@
-import ScheduledItem from "./ScheduledItem";
+import ScheduledSession from "./ScheduledSession";
 
 const mock = [
   {
@@ -36,9 +36,14 @@ const ScheduledView = ({ sessions }) => {
         Scheduled Interviews
       </h1>
       <div className="flex">
-        {mock.map((item) => (
-          <ScheduledItem key={item.time} item={item} />
+        {sessions.map((session) => (
+          <ScheduledSession key={session.id} session={session} />
         ))}
+        {sessions.length === 0 && (
+          <div className="w-full text-white text-center p-4">
+            No scheduled interviews, request or match one below
+          </div>
+        )}
       </div>
     </div>
   );

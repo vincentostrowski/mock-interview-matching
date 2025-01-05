@@ -1,4 +1,4 @@
-import RequestItem from "./RequestItem";
+import RequestSession from "./RequestSession";
 
 const mock = [
   {
@@ -27,9 +27,14 @@ const RequestView = ({ sessions }) => {
         Active Requests
       </h1>
       <div className="flex">
-        {mock.map((request, index) => (
-          <RequestItem key={index} request={request} />
+        {sessions.map((session) => (
+          <RequestSession key={session.id} session={session} />
         ))}
+        {sessions.length === 0 && (
+          <div className="w-full text-white text-center p-4">
+            No active interview requests, create one below
+          </div>
+        )}
       </div>
     </div>
   );
