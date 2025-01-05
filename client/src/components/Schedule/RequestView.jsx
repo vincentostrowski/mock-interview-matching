@@ -1,23 +1,5 @@
 import RequestSession from "./RequestSession";
 
-const mock = [
-  {
-    ease: "Easy",
-    topic: "Graphs",
-    time: "12:00",
-  },
-  {
-    ease: "Medium",
-    topic: "Arrays",
-    time: "1:00",
-  },
-  {
-    ease: "Hard",
-    topic: "Strings",
-    time: "2:00",
-  },
-];
-
 const RequestView = ({ sessions }) => {
   console.log("Requested: ", sessions);
 

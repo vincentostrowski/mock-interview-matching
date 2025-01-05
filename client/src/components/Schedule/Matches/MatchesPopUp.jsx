@@ -41,6 +41,7 @@ const MatchesPopUp = ({
               setScheduledSessions={setScheduledSessions}
             />
           ))}
+        {matches.length === 0 && <p>No matches found</p>}
       </div>
       <button
         onClick={onClose}

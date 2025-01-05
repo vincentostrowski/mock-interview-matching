@@ -1,32 +1,5 @@
 import ScheduledSession from "./ScheduledSession";
 
-const mock = [
-  {
-    ease: "Easy",
-    topic: "Graphs",
-    partner: "john23x",
-    time: "12:00",
-    john23x: "Set Problem",
-    vincentost778: "Rotten Oranges",
-  },
-  {
-    ease: "Medium",
-    topic: "Arrays",
-    partner: "vincentost778",
-    time: "1:00",
-    john23x: "Set Problem",
-    vincentost778: "Rotten Oranges",
-  },
-  {
-    ease: "Hard",
-    topic: "Strings",
-    partner: "john23x",
-    time: "2:00",
-    john23x: "Set Problem",
-    vincentost778: "Rotten Oranges",
-  },
-];
-
 const ScheduledView = ({ sessions }) => {
   console.log("Scheduled: ", sessions);
 
