@@ -34,8 +34,7 @@ const formatDates = (timeSlots) => {
   return formattedSlots;
 };
 
-/* const discordId = localStorage.getItem("discordId"); */
-const discordId = "exampleDiscordId123";
+const discordId = localStorage.getItem("discordId");
 
 // Create a new request using the POST method
 const createSession = async (timeSlots, filters) => {
@@ -68,7 +67,7 @@ const createSession = async (timeSlots, filters) => {
   }
 };
 
-const viewMatches = async (timeSlots, filters) => {
+const fetchMatchingSessions = async (timeSlots, filters) => {
   timeSlots = formatDates(timeSlots);
   try {
     if (!discordId) {
@@ -84,7 +83,7 @@ const viewMatches = async (timeSlots, filters) => {
     };
 
     // Make the POST request to the API
-    const response = await axios.post(`${API_URL}/view_matches`, requestBody);
+    const response = await axios.post(`${API_URL}/matches`, requestBody);
 
     // Return the response data (optional, handle as per your needs)
     return response.data;
@@ -94,19 +93,24 @@ const viewMatches = async (timeSlots, filters) => {
   }
 };
 
-const handleMatch = async (sessionId, matchUserDiscordId) => {
+const handleSessionMatch = async (timeSlots, sessionId) => {
   try {
+    timeSlots = formatDates(timeSlots);
+
     if (!discordId) {
       throw new Error("Discord ID not found in local storage");
     }
 
     const requestBody = {
+      timeSlots,
       sessionId,
-      user1DiscordId: discordId,
-      user2DiscordId: matchUserDiscordId,
+      user: discordId,
     };
 
-    const response = await axios.post(`${API_URL}/handle_match`, requestBody);
+    const response = await axios.post(
+      `${API_URL}/${sessionId}/match`,
+      requestBody
+    );
 
     return response.data;
   } catch (error) {
@@ -115,8 +119,48 @@ const handleMatch = async (sessionId, matchUserDiscordId) => {
   }
 };
 
+const fetchUncompletedSessions = async () => {
+  try {
+    if (!discordId) {
+      throw new Error("Discord ID not found in local storage");
+    }
+
+    const requested = await axios.get(
+      `${API_URL}?status=REQUESTED&discordId=${discordId}`
+    );
+
+    const scheduled = await axios.get(
+      `${API_URL}?status=SCHEDULED&discordId=${discordId}`
+    );
+
+    return { scheduled: scheduled.data, requested: requested.data };
+  } catch (error) {
+    console.error("Error fetching requested sessions:", error);
+    throw error;
+  }
+};
+
+const fetchCompletedSessions = async () => {
+  try {
+    if (!discordId) {
+      throw new Error("Discord ID not found in local storage");
+    }
+
+    const response = await axios.get(
+      `${API_URL}?status=COMPLETED&discordId=${discordId}`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching scheduled sessions:", error);
+    throw error;
+  }
+};
+
 export default {
   createSession,
-  viewMatches,
-  handleMatch,
+  fetchMatchingSessions,
+  handleSessionMatch,
+  fetchCompletedSessions,
+  fetchUncompletedSessions,
 };

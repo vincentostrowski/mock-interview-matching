@@ -6,9 +6,12 @@ const MatchesPopUp = ({ timeSlots, filters, onClose }) => {
   const [matches, setMatches] = useState([]);
 
   useEffect(() => {
-    const fetchMatches = async () => {
+    const fetchMatchingSessions = async () => {
       try {
-        const response = await sessionService.viewMatches(timeSlots, filters);
+        const response = await sessionService.fetchMatchingSessions(
+          timeSlots,
+          filters
+        );
         console.log("Matches viewed successfully:", response);
         setMatches(response);
       } catch (error) {
@@ -16,7 +19,7 @@ const MatchesPopUp = ({ timeSlots, filters, onClose }) => {
       }
     };
 
-    fetchMatches();
+    fetchMatchingSessions();
   }, []);
 
   return (
@@ -25,7 +28,12 @@ const MatchesPopUp = ({ timeSlots, filters, onClose }) => {
       <div className="max-h-96 overflow-y-auto">
         {matches &&
           matches.map((match) => (
-            <Match key={match.id} match={match} onClose={onClose} />
+            <Match
+              key={match.id}
+              match={match}
+              timeSlots={timeSlots}
+              onClose={onClose}
+            />
           ))}
       </div>
       <button

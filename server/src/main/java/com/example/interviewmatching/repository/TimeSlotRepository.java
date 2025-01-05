@@ -12,7 +12,11 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
-    List<TimeSlot> findByStartTimeIn(List<LocalDateTime> startTimes);
+
+    @Modifying
+    @Query("DELETE FROM TimeSlot t WHERE t.session.id = :sessionId AND t.startTime NOT IN :timeSlots")
+    void deleteBySessionIdAndStartTimeNotIn(@Param("sessionId") Long sessionId,
+            @Param("timeSlots") List<LocalDateTime> timeSlots);
 
     @Modifying
     @Query("DELETE FROM TimeSlot t WHERE t.startTime < :now")

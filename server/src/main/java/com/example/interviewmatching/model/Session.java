@@ -14,11 +14,11 @@ public class Session {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "participant1_id", nullable = false)
+    @JoinColumn(nullable = false)
     private User participant1; // The user who created this request
 
     @ManyToOne
-    @JoinColumn(name = "participant2_id", nullable = true)
+    @JoinColumn(nullable = true)
     private User participant2; // The user who accepted this request
 
     @Column(nullable = false)
@@ -43,7 +43,7 @@ public class Session {
     public enum Status {
         REQUESTED,
         SCHEDULED,
-        COMPLETE
+        COMPLETED
     }
 
     // seems like this will be called before the entity is persisted to the

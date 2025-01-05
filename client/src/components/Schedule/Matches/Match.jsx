@@ -1,15 +1,15 @@
 import sessionService from "../../../services/sessionService";
 import { useState } from "react";
 
-const Match = ({ match, onClose }) => {
+const Match = ({ match, timeSlots, onClose }) => {
   const [isClicked, setIsClicked] = useState(false);
 
-  const handleMatch = async () => {
+  const handleSessionMatch = async () => {
     setIsClicked(true);
     try {
-      const response = await sessionService.handleMatch(
-        match.id,
-        match.user.discordId
+      const response = await sessionService.handleSessionMatch(
+        timeSlots,
+        match.id
       );
       console.log("Match created successfully:", response);
       onClose();
@@ -29,7 +29,7 @@ const Match = ({ match, onClose }) => {
         className={`py-2 px-4 rounded text-white ${
           isClicked ? "bg-blue-400" : "bg-blue-500 hover:bg-blue-600"
         }`}
-        onClick={handleMatch}
+        onClick={handleSessionMatch}
       >
         Match
       </button>
