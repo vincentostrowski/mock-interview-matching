@@ -157,10 +157,26 @@ const fetchCompletedSessions = async () => {
   }
 };
 
+const saveFeedback = async (sessionId, feedback, feedbackKey) => {
+  try {
+    const requestBody = {
+      [feedbackKey]: feedback,
+    };
+
+    const response = await axios.patch(`${API_URL}/${sessionId}`, requestBody);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error saving feedback:", error);
+    throw error;
+  }
+};
+
 export default {
   createSession,
   fetchMatchingSessions,
   handleSessionMatch,
   fetchCompletedSessions,
   fetchUncompletedSessions,
+  saveFeedback,
 };

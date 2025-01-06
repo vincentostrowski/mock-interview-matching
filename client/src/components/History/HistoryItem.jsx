@@ -5,7 +5,13 @@ const HistoryItem = ({ interview }) => {
         <div>
           <p className="font-semibold">Topic: {interview.topic}</p>
           <p>Ease: {interview.ease}</p>
-          <p>Partner: {interview.partner}</p>
+          <p>
+            Partner:{" "}
+            {localStorage.getItem("discordId") ===
+            interview.participant1.discordId
+              ? interview.participant2.discordId
+              : interview.participant1.discordId}
+          </p>
         </div>
         <div>
           <p>{interview.time}</p>

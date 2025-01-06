@@ -8,7 +8,7 @@ import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <div className="inter-nice">
+    <div className="flex flex-col inter-nice h-dvh w-dvw">
       <Router>
         <Navbar />
         <Routes>

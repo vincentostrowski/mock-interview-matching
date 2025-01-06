@@ -63,6 +63,38 @@ public class SessionService {
         return sessionRepository.findByStatusAndUser(status, user);
     }
 
+    public Session updateSession(Long sessionId, Map<String, Object> requestData) {
+        Session session = sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new RuntimeException("Session not found"));
+
+        if (requestData.containsKey("topic")) {
+            session.setTopic((String) requestData.get("topic"));
+        }
+        if (requestData.containsKey("ease")) {
+            session.setEase((String) requestData.get("ease"));
+        }
+        if (requestData.containsKey("type")) {
+            session.setType((String) requestData.get("type"));
+        }
+        if (requestData.containsKey("problem1")) {
+            session.setProblem1((String) requestData.get("problem1"));
+        }
+        if (requestData.containsKey("problem2")) {
+            session.setProblem2((String) requestData.get("problem2"));
+        }
+        if (requestData.containsKey("videoLocation")) {
+            session.setVideoLocation((String) requestData.get("videoLocation"));
+        }
+        if (requestData.containsKey("feedback1")) {
+            session.setFeedback1((String) requestData.get("feedback1"));
+        }
+        if (requestData.containsKey("feedback2")) {
+            session.setFeedback2((String) requestData.get("feedback2"));
+        }
+
+        return sessionRepository.save(session);
+    }
+
     public Session saveSession(Session session) {
         return sessionRepository.save(session);
     }

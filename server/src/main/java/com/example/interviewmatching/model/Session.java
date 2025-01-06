@@ -36,6 +36,15 @@ public class Session {
     @Column(nullable = true)
     private String problem2;
 
+    @Column(nullable = true)
+    private String videoLocation;
+
+    @Column(columnDefinition = "TEXT")
+    private String feedback1;
+
+    @Column(columnDefinition = "TEXT")
+    private String feedback2;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;

@@ -1,51 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HistoryView from "../components/History/HistoryView";
 import InterviewView from "../components/History/InterviewView";
-
-const mock = [
-  {
-    id: 1,
-    interview: {
-      ease: "Easy",
-      topic: "Graphs",
-      partner: "john23x",
-      time: "12:00",
-      john23x: "Set Problem",
-      vincentost778: "Rotten Oranges",
-    },
-  },
-  {
-    id: 2,
-    interview: {
-      ease: "Easy",
-      topic: "Graphs",
-      partner: "john23x",
-      time: "12:00",
-      john23x: "Set Problem",
-      vincentost778: "Rotten Oranges",
-    },
-  },
-  {
-    id: 3,
-    interview: {
-      ease: "Easy",
-      topic: "Graphs",
-      partner: "john23x",
-      time: "12:00",
-      john23x: "Set Problem",
-      vincentost778: "Rotten Oranges",
-    },
-  },
-];
+import sessionService from "../services/sessionService";
 
 const HistoryPage = () => {
-  const [selectedInterview, setSelectedInterview] = useState(mock[0].interview);
+  const [selectedInterview, setSelectedInterview] = useState(null);
+  const [interviews, setInterviews] = useState([]);
+
+  useEffect(() => {
+    const fetchInterviews = async () => {
+      try {
+        const interviews = await sessionService.fetchCompletedSessions();
+        setInterviews(interviews);
+        setSelectedInterview(interviews[0]);
+      } catch (error) {
+        console.error("Error fetching interviews:", error);
+      }
+    };
+    fetchInterviews();
+  }, []);
 
   return (
     <div className="w-full flex">
       <div className="flex-1">
         <HistoryView
-          interviews={mock}
+          interviews={interviews}
           setSelectedInterview={setSelectedInterview}
         />
       </div>
