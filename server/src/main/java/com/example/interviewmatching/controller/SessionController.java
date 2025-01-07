@@ -15,13 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/sessions")
 public class SessionController {
+
+    private final Map<String, String> sessionRoomsMap = new HashMap<>();
 
     @Autowired
     private SessionService sessionService;
@@ -57,5 +61,11 @@ public class SessionController {
             @RequestBody Map<String, Object> requestData) {
         Session session = sessionService.updateSession(sessionId, requestData);
         return ResponseEntity.ok(session);
+    }
+
+    @GetMapping("/roomId")
+    public String createRoom(@RequestParam String sessionId) {
+        // Generate a unique room name
+        return sessionRoomsMap.computeIfAbsent(sessionId, id -> "room-" + UUID.randomUUID());
     }
 }

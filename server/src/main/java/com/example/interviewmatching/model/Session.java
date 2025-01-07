@@ -1,5 +1,6 @@
 package com.example.interviewmatching.model;
 
+import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,6 +45,9 @@ public class Session {
 
     @Column(columnDefinition = "TEXT")
     private String feedback2;
+
+    @Column(nullable = true)
+    private LocalDateTime scheduledTime;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

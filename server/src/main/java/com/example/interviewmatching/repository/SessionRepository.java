@@ -12,11 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SessionRepository extends JpaRepository<Session, Long> {
 
-        @Query("SELECT s FROM Session s WHERE s.status = :status AND (s.participant1 = :user OR s.participant2 = :user)")
+        @Query("SELECT s FROM Session s WHERE s.status = :status AND (s.participant1 = :user OR s.participant2 = :user) ORDER BY s.scheduledTime")
         List<Session> findByStatusAndUser(@Param("status") Session.Status status, @Param("user") User user);
-
-        @Query("SELECT s FROM Session s WHERE s.participant1.id = :userId OR s.participant2.id = :userId")
-        List<Session> findByUserParticipation(@Param("userId") Long userId);
 
         List<Session> findByTypeAndEaseAndTopic(String type, String ease, String topic);
 

@@ -172,6 +172,19 @@ const saveFeedback = async (sessionId, feedback, feedbackKey) => {
   }
 };
 
+const fetchRoomId = async (sessionId) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/roomId?sessionId=${sessionId}`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching room ID:", error);
+    throw error;
+  }
+};
+
 export default {
   createSession,
   fetchMatchingSessions,
@@ -179,4 +192,5 @@ export default {
   fetchCompletedSessions,
   fetchUncompletedSessions,
   saveFeedback,
+  fetchRoomId,
 };
