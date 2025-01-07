@@ -4,6 +4,7 @@ import { getDatabase } from "firebase/database";
 const firebaseConfig = {
   apiKey: "AIzaSyBw6xe1GCDkvN862t6JBR2LLKOcVpmHdlI",
   authDomain: "mock-519d0.firebaseapp.com",
+  databaseURL: "https://mock-519d0-default-rtdb.firebaseio.com",
   projectId: "mock-519d0",
   storageBucket: "mock-519d0.firebasestorage.app",
   messagingSenderId: "706375307879",
