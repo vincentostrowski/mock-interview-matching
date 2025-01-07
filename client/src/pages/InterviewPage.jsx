@@ -8,6 +8,7 @@ import sessionService from "../services/sessionService";
 const InterviewPage = () => {
   const [upcomingSession, setUpcomingSession] = useState(null);
   const [scheduledTime, setScheduledTime] = useState(null);
+  const [roomId, setRoomId] = useState(null);
 
   useEffect(() => {
     const fetchUpcomingSession = async () => {
@@ -17,6 +18,11 @@ const InterviewPage = () => {
         setScheduledTime(
           new Date(sessions.scheduled[0].scheduledTime).getTime()
         );
+        //set the roomId
+        const roomId = await sessionService.fetchRoomId(
+          sessions.scheduled[0].id
+        );
+        setRoomId(roomId);
       } else {
         setUpcomingSession("none");
       }
@@ -29,12 +35,13 @@ const InterviewPage = () => {
       {!upcomingSession && <h1>loading</h1>}
       {upcomingSession === "none" && <h1>No upcoming sessions</h1>}
       {upcomingSession &&
+      roomId &&
       scheduledTime - 600000 < Date.now() &&
       Date.now() < scheduledTime + 3600000 ? (
         <>
-          <CodeSection />
+          <CodeSection roomId={roomId} />
           <div className="w-1/3 flex flex-col">
-            <Interview session={upcomingSession} />
+            <Interview session={upcomingSession} roomId={roomId} />
             <AIHelper session={upcomingSession} />
           </div>
         </>

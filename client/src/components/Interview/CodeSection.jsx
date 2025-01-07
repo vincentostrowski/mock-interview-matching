@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { ref, onValue, set } from "firebase/database";
+import { ref, onValue, set, remove } from "firebase/database";
 import database from "../../firebase"; // Import Firebase configuration
 
-const CodeSection = () => {
+const CodeSection = ({ roomId }) => {
   const [text, setText] = useState(""); // Local state for the text
-  const textRef = ref(database, "shared-text"); // Reference to the Firebase database node
+  const textRef = ref(database, `rooms/${roomId}`); // Reference to the Firebase database node
 
   // Fetch the initial content and sync with Firebase
   useEffect(() => {
@@ -14,6 +14,11 @@ const CodeSection = () => {
         setText(data); // Sync changes from Firebase
       }
     });
+
+    /* return () => {
+      //delete firebase realtime database
+      remove(textRef);
+    }; */
   }, []);
 
   // Handle local input changes and update Firebase
