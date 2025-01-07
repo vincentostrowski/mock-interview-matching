@@ -1,40 +1,69 @@
 import { useState, useEffect } from "react";
 import { ref, onValue, set, remove } from "firebase/database";
-import database from "../../firebase"; // Import Firebase configuration
+import database from "../../firebase";
+
+import CodeMirror from "@uiw/react-codemirror";
+import { langs } from "@uiw/codemirror-extensions-langs";
+import { dracula } from "@uiw/codemirror-theme-dracula";
 
 const CodeSection = ({ roomId }) => {
-  const [text, setText] = useState(""); // Local state for the text
-  const textRef = ref(database, `rooms/${roomId}`); // Reference to the Firebase database node
+  const [text, setText] = useState("");
+  const textRef = ref(database, `rooms/${roomId}`);
 
-  // Fetch the initial content and sync with Firebase
   useEffect(() => {
     onValue(textRef, (snapshot) => {
       const data = snapshot.val();
       if (data !== null) {
-        setText(data); // Sync changes from Firebase
+        setText(data);
       }
     });
 
-    /* return () => {
-      //delete firebase realtime database
+    return () => {
       remove(textRef);
-    }; */
+    };
   }, []);
 
-  // Handle local input changes and update Firebase
-  const handleChange = (e) => {
-    const newText = e.target.value;
-    setText(newText); // Update local state
-    set(textRef, newText); // Update Firebase
+  // Updated handler to receive the value directly
+  const handleChange = (newText) => {
+    setText(newText);
+    set(textRef, newText);
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center p-4 bg-gray-900 text-gray-200 h-screen">
-      <textarea
+    <div className="flex-1 flex flex-col items-center p-4 bg-gray-900 text-gray-200">
+      <CodeMirror
         value={text}
+        height="400px"
+        theme={dracula}
+        extensions={[langs.python()]}
         onChange={handleChange}
-        className="w-full h-96 p-4 text-sm font-mono bg-gray-900 text-gray-200 outline-none resize-none rounded-b-lg scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800"
-        placeholder="// Start typing your code here..."
+        className="w-full h-full rounded-b-lg overflow-hidden"
+        basicSetup={{
+          lineNumbers: true,
+          highlightActiveLineGutter: true,
+          highlightSpecialChars: true,
+          history: true,
+          foldGutter: true,
+          drawSelection: true,
+          dropCursor: true,
+          allowMultipleSelections: true,
+          indentOnInput: true,
+          syntaxHighlighting: true,
+          bracketMatching: true,
+          closeBrackets: true,
+          autocompletion: true,
+          rectangularSelection: true,
+          crosshairCursor: true,
+          highlightActiveLine: true,
+          highlightSelectionMatches: true,
+          closeBracketsKeymap: true,
+          defaultKeymap: true,
+          searchKeymap: true,
+          historyKeymap: true,
+          foldKeymap: true,
+          completionKeymap: true,
+          lintKeymap: true,
+        }}
       />
     </div>
   );

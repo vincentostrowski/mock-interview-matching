@@ -18,3 +18,7 @@ div[id^="jitsiMeeting-"] {
   width: 100%;
   height: 100%;
 }
+
+.cm-editor {
+  height: 100%;
+}
