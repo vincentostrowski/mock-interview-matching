@@ -1,14 +1,19 @@
-import { useState, useEffect } from "react";
-import { ref, onValue, set, remove } from "firebase/database";
+import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
+import { ref as firebaseRef, onValue, set, remove } from "firebase/database";
 import database from "../../firebase";
 
 import CodeMirror from "@uiw/react-codemirror";
 import { langs } from "@uiw/codemirror-extensions-langs";
 import { dracula } from "@uiw/codemirror-theme-dracula";
 
-const CodeSection = ({ roomId }) => {
+const CodeSection = forwardRef(({ roomId }, ref) => {
   const [text, setText] = useState("");
-  const textRef = ref(database, `rooms/${roomId}`);
+  const textRef = firebaseRef(database, `rooms/${roomId}`);
+
+  // Expose a method to get the current text in the CodeEditor
+  useImperativeHandle(ref, () => ({
+    getText: () => text, // Return the current value of text
+  }));
 
   useEffect(() => {
     onValue(textRef, (snapshot) => {
@@ -30,7 +35,7 @@ const CodeSection = ({ roomId }) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center p-4 bg-gray-900 text-gray-200">
+    <div className="flex-1 flex flex-col items-center bg-gray-800 text-gray-100">
       <CodeMirror
         value={text}
         height="400px"
@@ -67,6 +72,9 @@ const CodeSection = ({ roomId }) => {
       />
     </div>
   );
-};
+});
+
+// Assign a display name to the component
+CodeSection.displayName = "CodeSection";
 
 export default CodeSection;

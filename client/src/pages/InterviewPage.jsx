@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Interview from "../components/Interview/Interview";
 import AIHelper from "../components/Interview/AIHelper";
 import CodeSection from "../components/Interview/CodeSection";
@@ -9,6 +9,7 @@ const InterviewPage = () => {
   const [upcomingSession, setUpcomingSession] = useState(null);
   const [scheduledTime, setScheduledTime] = useState(null);
   const [roomId, setRoomId] = useState(null);
+  const codeEditorRef = useRef(null);
 
   useEffect(() => {
     const fetchUpcomingSession = async () => {
@@ -39,10 +40,10 @@ const InterviewPage = () => {
       scheduledTime - 600000 < Date.now() &&
       Date.now() < scheduledTime + 3600000 ? (
         <>
-          <CodeSection roomId={roomId} />
+          <CodeSection roomId={roomId} ref={codeEditorRef} />
           <div className="w-1/3 flex flex-col">
             <Interview session={upcomingSession} roomId={roomId} />
-            <AIHelper session={upcomingSession} />
+            <AIHelper session={upcomingSession} codeEditorRef={codeEditorRef} />
           </div>
         </>
       ) : (
