@@ -1,5 +1,6 @@
 import { useState } from "react";
 import gptService from "../../services/gptService";
+import ReactMarkdown from "react-markdown";
 
 const AIHelper = ({ session, codeEditorRef }) => {
   const user = localStorage.getItem("discordId");
@@ -8,28 +9,32 @@ const AIHelper = ({ session, codeEditorRef }) => {
   const [problem, setProblem] = useState(
     isParticipant1 ? session.problem2 : session.problem1
   );
-  const [response, setResponse] = useState(null);
+  const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
   const [approach, setApproach] = useState("");
 
   const handleRequest = async () => {
     const code = codeEditorRef.current.getText();
-    const prompt = `The problem is: ${problem}\n\n${other.discordId}'s approach: ${approach}\n\n${other.discordId}'s code:\n${code}`;
+    const prompt = `The problem is: ${problem}\n\n${other.discordId}'s approach: ${approach}\n\n${other.discordId}'s code:\n${code}. Give a concise guidance on getting closer to the solution without giving it (Don't tell what to do, but nudge on how to get closer to this). Please don't use any formatting for your response as this will not be formatted in the final message.`;
     const response = await gptService.fetchGptResponse(prompt);
+    setLoading(false);
     setResponse(response);
   };
 
   return (
     <div className="relative flex-1 w-full bg-gray-800 text-white p-2 shadow-lg">
-      <h2 className="w-full text-center text-sm mb-4">
+      <h2 className="w-full text-center text-sm mb-2">
         AI Interviewer Assistance
       </h2>
-      <h3 className="text-sm mb-4">{response}</h3>
+      <div className="h-56 overflow-y-scroll scrollbar-minimal bg-gray-800">
+        <ReactMarkdown className="text-sm mb-4">{response}</ReactMarkdown>
+      </div>
       <div className="w-full absolute bottom-2 left-0 p-1">
         <div className="w-full flex gap-2 p-2 text-gray-300 text-xs">
           <div>{other.discordId + "'s problem: "}</div>
           <input
             type="text"
+            onChange={(e) => setProblem(e.target.value)}
             value={problem}
             className="bg-gray-800 text-gray-300 flex-1"
           />
@@ -45,7 +50,6 @@ const AIHelper = ({ session, codeEditorRef }) => {
           onClick={() => {
             setLoading(true);
             handleRequest();
-            setLoading(false);
           }}
           className="w-full text-sm p-1 bg-gray-600 text-white rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
         >
