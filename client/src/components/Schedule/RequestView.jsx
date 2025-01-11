@@ -1,7 +1,6 @@
 import RequestSession from "./RequestSession";
 
 const RequestView = ({ sessions }) => {
-  console.log("Requested: ", sessions);
 
   return (
     <div className="w-full h-full p-4 bg-zinc-900 rounded-lg">

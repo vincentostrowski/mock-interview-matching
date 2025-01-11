@@ -1,6 +1,7 @@
 import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
 import { ref as firebaseRef, onValue, set, remove } from "firebase/database";
 import database from "../../firebase";
+import ScreenShareAlert from "./ScreenShareAlert";
 
 import CodeMirror from "@uiw/react-codemirror";
 import { langs } from "@uiw/codemirror-extensions-langs";
@@ -35,7 +36,7 @@ const CodeSection = forwardRef(({ roomId }, ref) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center bg-gray-800 text-gray-100">
+    <div className="relative flex-1 flex flex-col items-center bg-gray-800 text-gray-100">
       <CodeMirror
         value={text}
         height="400px"
@@ -48,7 +49,7 @@ const CodeSection = forwardRef(({ roomId }, ref) => {
           highlightActiveLineGutter: true,
           highlightSpecialChars: true,
           history: true,
-          foldGutter: true,
+          foldGutter: false,
           drawSelection: true,
           dropCursor: true,
           allowMultipleSelections: true,
@@ -56,7 +57,7 @@ const CodeSection = forwardRef(({ roomId }, ref) => {
           syntaxHighlighting: true,
           bracketMatching: true,
           closeBrackets: true,
-          autocompletion: true,
+          autocompletion: false,
           rectangularSelection: true,
           crosshairCursor: true,
           highlightActiveLine: true,
@@ -70,6 +71,7 @@ const CodeSection = forwardRef(({ roomId }, ref) => {
           lintKeymap: true,
         }}
       />
+      <ScreenShareAlert roomId={roomId} />
     </div>
   );
 });
