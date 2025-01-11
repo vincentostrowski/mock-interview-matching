@@ -12,7 +12,7 @@ const RequestSession = ({ session }) => {
 
   return (
     <div
-      className="relative h-full p-4 bg-gray-100 rounded-lg bg-zinc-800 text-white shadow-lg mx-1 hover:brightness-75 group cursor-pointer"
+      className="relative h-full p-4 rounded-lg bg-zinc-800 text-white shadow-lg mx-1 hover:brightness-75 group cursor-pointer"
       onClick={() => setShowModal(true)}
     >
       <p>Topic: {session.topic}</p>

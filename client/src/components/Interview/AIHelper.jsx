@@ -22,11 +22,11 @@ const AIHelper = ({ session, codeEditorRef }) => {
   };
 
   return (
-    <div className="relative flex-1 w-full bg-gray-800 text-white p-2 shadow-lg">
+    <div className="relative flex-1 w-full text-white p-2 shadow-lg">
       <h2 className="w-full text-center text-sm mb-2">
         AI Interviewer Assistance
       </h2>
-      <div className="h-56 overflow-y-scroll scrollbar-minimal bg-gray-800">
+      <div className="h-56 overflow-y-scroll scrollbar-minimal">
         <ReactMarkdown className="text-sm mb-4">{response}</ReactMarkdown>
       </div>
       <div className="w-full absolute bottom-2 left-0 p-1">
@@ -36,14 +36,14 @@ const AIHelper = ({ session, codeEditorRef }) => {
             type="text"
             onChange={(e) => setProblem(e.target.value)}
             value={problem}
-            className="bg-gray-800 text-gray-300 flex-1"
+            className="bg-gray-800 bg-zinc-900 flex-1"
           />
         </div>
         <textarea
           value={approach}
           placeholder={`To help guide ${other.discordId}, tell me the approach they're using.\nNo need to send their code, I’ll have access to this.`}
           onChange={(e) => setApproach(e.target.value)}
-          className="w-full p-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 bg-zinc-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           rows="4"
         />
         <button
@@ -51,7 +51,7 @@ const AIHelper = ({ session, codeEditorRef }) => {
             setLoading(true);
             handleRequest();
           }}
-          className="w-full text-sm p-1 bg-gray-600 text-white rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
+          className="w-full text-sm p-1 bg-zinc-800 text-white rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
         >
           {loading ? "Loading..." : "Guide"}
         </button>

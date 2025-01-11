@@ -41,7 +41,7 @@ const InterviewPage = () => {
       Date.now() < scheduledTime + 3600000 ? (
         <>
           <CodeSection roomId={roomId} ref={codeEditorRef} />
-          <div className="w-1/3 flex flex-col">
+          <div className="w-1/3 flex flex-col bg-zinc-900">
             <Interview session={upcomingSession} roomId={roomId} />
             <AIHelper session={upcomingSession} codeEditorRef={codeEditorRef} />
           </div>
